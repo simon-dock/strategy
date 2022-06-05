@@ -1,0 +1,76 @@
+戦略ゲーム
+
+・概要
+７☓１１の盤面
+駒を動かし敵陣に攻め込む
+お互いが指示を全駒出した後、同時に動く
+
+・勝利条件
+相手陣地の指定されたマスに自軍駒を配置すれば勝利
+
+
+
+・表示するべき情報
+どちらの指示ターンか
+
+アクティブプレイヤーの情報
+　資産
+　手札
+
+駒の情報
+　敵味方
+　種類
+　性能
+　作戦行動
+
+地形情報
+　性能
+
+・駒　具体案
+
+    行動力：駒のすべての行動に必要　１ターンの上限値
+　      行動種類
+            移動：１マス１行動力消費
+            攻撃：１攻撃２行動力消費
+
+    攻撃力：駒の攻撃能力　この値だけ敵ユニットの体力を減らす
+
+    体力：駒の体力　この値が０になるとユニットは破壊される
+
+    射程：攻撃できる範囲
+
+    製造時間：
+
+    製造価格：
+
+    作戦：ユニットが取れる行動指針
+        作戦種類
+            突撃：移動不可になるまで予定された移動を行う
+            迎撃：射程内に敵を入れると攻撃に移る
+
+
+
+for i in range(15):
+            FORMAT = pygame.font.SysFont(Font[i],50)
+            text = FORMAT.render("Hello word", True, color.select("WHITE"))
+            WIN.blit(text, (10,i*60))
+
+        for i in range(15,30):
+            FORMAT = pygame.font.SysFont(Font[i],50)
+            text = FORMAT.render("Hello word", True, color.select("WHITE"))
+            WIN.blit(text, (330,(i-15)*60))
+
+        for i in range(30,45):
+            FORMAT = pygame.font.SysFont(Font[i],50)
+            text = FORMAT.render("Hello word", True, color.select("WHITE"))
+            WIN.blit(text, (660,(i-30)*60))
+
+        for i in range(45,60):
+            FORMAT = pygame.font.SysFont(Font[i],50)
+            text = FORMAT.render("Hello word", True, color.select("WHITE"))
+            WIN.blit(text, (990,(i-45)*60))
+        
+        for i in range(60,75):
+            FORMAT = pygame.font.SysFont(Font[i],50)
+            text = FORMAT.render("Hello word", True, color.select("WHITE"))
+            WIN.blit(text, (1320,(i-60)*60))

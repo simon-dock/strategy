@@ -1,43 +1,79 @@
+from re import U
 import pygame
 from pygame.locals import *
-import sys
+
+import init
+import color
+import unit
+import board
+import flag
+
+import Draw
+import Get
+import Judge
+import Display
 
 #ウィンドウの初期化
 pygame.init()
-WIN_WIDTH = 2200
-WIN_HEIGHT = 1200
-WIN = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+WIN = pygame.display.set_mode((init.WIN_WIDTH, init.WIN_HEIGHT))
 
-#色
-WHITE = [255, 255, 255]
-BLACK = [0, 0, 0]
-GRAY = [193, 162, 129]
-BLUE = [51, 255, 255]
-W_BLUE = [204,255,255]
-ORANGE = [255,127,0]
+unit_data = [0 for i in range(unit.NUMBER)]
+unit.init(unit_data)
 
-def draw_board():
-
-    WIN.fill(BLACK)
-
-    for i in range(10):
-        for j in range(18):
-            x_ren = 120*(j+1)+10*j
-            y_ren = 104*(i+1)+10*i
-            pygame.draw.polygon(WIN, GRAY, [(x_ren,y_ren),(x_ren+30,y_ren-52),(x_ren+90,y_ren-52),(x_ren+120,y_ren),(x_ren+90,y_ren+52),(x_ren+30,y_ren+52)])
-
-    start_pos = [[10,10],[10,1190],[2190,1190],[2190,10]]
-    pygame.draw.lines(WIN, WHITE, True, start_pos, 5)
 
 def main():
     
     run = True
     while run:
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-        draw_board()
-        pygame.time.delay(30)
+
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+
+                if flag.LIST_UNIT == True:
+                    selection_unit = Get.pos_select_list()
+                    if selection_unit != -1:
+                        flag.INFOR_UNIT = True
+                        flag.LIST_UNIT = False
+
+                if flag.INFOR_UNIT == True:
+                    selection_deploy = Get.pos_select_infor_unit()
+                    if selection_deploy == 1:
+                        flag.DEPLOY_UNIT = True
+                        flag.INFOR_UNIT = False
+                    if selection_deploy == 2:
+                        flag.LIST_UNIT = True
+                        flag.INFOR_UNIT = False
+
+
+                x, y = Get.pos_grid()
+                if x == -1:continue
+                
+
+            if event.type == KEYDOWN:  # キーを押したとき
+                Judge.key(event)
+
+        Draw.board_surface(WIN)
+        Display.pos_cursor(WIN)
+        Display.infor_selection(WIN)
+
+        
+       
+        if flag.LIST_UNIT == True:
+            Display.list_unit(WIN, unit_data)
+        elif flag.INFOR_UNIT == True:
+            Display.infor_unit(WIN, unit_data, selection_unit)
+        elif flag.DEPLOY_UNIT == True:
+            Display.deploy_unit(WIN, unit_data, selection_unit)
+        else:
+            Display.infor_menu(WIN)
+
+        
+
+
+        pygame.time.delay(10)
         pygame.display.update()
 
 if __name__ == '__main__':
